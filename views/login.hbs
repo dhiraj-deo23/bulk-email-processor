@@ -1,0 +1,16 @@
+<h3>Login</h3>
+<div class="divider"></div>
+<div class="section">
+  {{#if messages.error}}
+    <p>{{messages.error}}</p>
+  {{/if}}
+
+  <form action="" method="POST">
+    <input type="text" placeholder="Email" required name="email" />
+    <input type="password" required placeholder="password" name="password" />
+    <div class="section">
+      <input type="submit" value="Login" class="btn red darken-1" />
+    </div>
+  </form>
+  <p>Not registered yet? <a href="/register">Register</a></p>
+</div>
