@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require("http");
 const { engine } = require("express-handlebars");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -22,7 +23,12 @@ seed();
 
 //creating server
 const app = express();
+const server = http.createServer(app);
 const port = process.env.PORT || 3000;
+
+//firing websocket server
+const { wsServer } = require("./src/services/wsServer");
+wsServer(server);
 
 //handlebar settings
 app.engine("hbs", engine({ extname: "hbs", defaultLayout: "main" }));
@@ -60,6 +66,6 @@ app.use(flash());
 //routers
 app.use(userRouter);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server is up on port ${port}`);
 });

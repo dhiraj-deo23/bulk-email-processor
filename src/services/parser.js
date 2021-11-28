@@ -10,7 +10,6 @@ const excelParser = (filePath) => {
       .split("\n");
     emails = emails.concat(temp);
   }
-  console.log(emails);
   return emails;
 };
 

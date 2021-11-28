@@ -12,9 +12,10 @@ const emaildeQueue = (id) => {
       }
       const queueName = "emails";
       channel.assertQueue(queueName);
+
       channel.consume(queueName, (msg) => {
         const email = msg.content.toString();
-        console.log(email);
+
         //sending emails
         sendEmail(email, id);
         channel.ack(msg);

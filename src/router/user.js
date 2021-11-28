@@ -20,7 +20,9 @@ router.get("/", ensureAuth, async (req, res) => {
 });
 
 router.get("/email/:id", ensureAuth, (req, res) => {
-  res.render("upload");
+  res.render("upload", {
+    username: req.user.username,
+  });
 });
 
 router.post(
@@ -28,16 +30,18 @@ router.post(
   ensureAuth,
   upload.single("excel"),
   async (req, res) => {
-    const emails = excelParser(req.file.path);
-    console.log(emails);
-    queue(emails);
-    dequeue(req.params.id);
-    res.render("upload", {
-      logs: "email sent",
-    });
+    try {
+      const emails = excelParser(req.file.path);
+      console.log(emails);
+      queue(emails);
+      dequeue(req.params.id);
+      res.render("upload");
+    } catch (error) {
+      res.render("errors/500");
+    }
   },
   (err, req, res, next) =>
-    res.render("index", {
+    res.render("upload", {
       error: err.message,
     })
 );
@@ -107,7 +111,7 @@ router.get("/verify", ensureGuest, async (req, res) => {
     res.clearCookie("jwt");
     res.redirect("/");
   } catch (error) {
-    res.render("errors/500");
+    res.render("errors/404");
   }
 });
 

@@ -1,3 +1,4 @@
+const { json } = require("express");
 const nodemailer = require("nodemailer");
 const Email = require("../Model/Email");
 require("dotenv").config({ path: "./.env" });
@@ -33,6 +34,7 @@ const verifyMail = (mail, code) => {
 //sending email template
 const sendEmail = async (mail, id) => {
   const template = await Email.findById(id);
+
   if (!template) {
     throw new Error("something went wrong! template not found!");
   }
@@ -48,14 +50,13 @@ const sendEmail = async (mail, id) => {
       if (error) {
         return console.log(error);
       }
-      //   console.log("Message sent: %s", info.messageId);
       console.log("mail", info.accepted[0]);
-      console.log("log", new Date().toLocaleString());
-      return "fuck";
-      //   return {
-      //     mail: info.accepted[0],
-      //     time: new Date().toLocaleString(),
-      //   };
+      require("../services/test")(
+        JSON.stringify({
+          mail: info.accepted[0],
+          log: new Date().toLocaleString(),
+        })
+      );
     }
   );
 };
