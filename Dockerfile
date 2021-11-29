@@ -1,0 +1,22 @@
+FROM node:14
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV PORT=3000
+ENV SECRET=something
+ENV MONGODB_URL="mongodb://127.0.0.1:27017/mail-processor"
+ENV HOST smtp.mailtrap.io
+ENV MAIL_PORT=587
+ENV USER=
+ENV PASS=
+ENV JWT_SECRET=f7a4602ed2148b38f5298d63ee43624853a2307b89c2064daff3591e8e76df2d57c3c5410dd91cbe99c4329633aed86c265c2775115f3f1b6e938605641328bd
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
